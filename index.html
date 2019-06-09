@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+  </head>
+  <body>
+    <canvas class="zdog-canvas" width="320" height="240"></canvas>
+    <script>
+      let illo = new Zdog.Illustration({
+        // set canvas with selector
+        element: ".zdog-canvas",
+        dragRotate: true
+      });
+
+      let group = new Zdog.Group({
+        addTo: illo
+      });
+
+      const box = new Zdog.Box({
+        addTo: illo,
+        width: 78,
+        height: 80,
+        depth: 5,
+        color: "#ffe400",
+        leftFace: "#ffb321",
+        rightFace: "#ffb321",
+        rearFace: "#9e6101",
+        bottomFace: "#9e6101"
+      });
+
+      const addCylinder = (y, z, color) => {
+        const cylinder = new Zdog.Cylinder({
+          addTo: illo,
+          length: 80,
+          diameter: 20,
+          color,
+          fill: true,
+          rotate: { y: -Zdog.TAU / 4 },
+          translate: { y, z },
+          backface: "#ffb321"
+        });
+
+        new Zdog.Cylinder({
+          addTo: cylinder,
+          length: 5,
+          diameter: 5,
+          color: "#000",
+          fill: true,
+          backface: "#383838",
+          translate: { z: -40 }
+        });
+
+        new Zdog.Cylinder({
+          addTo: cylinder,
+          length: 5,
+          diameter: 5,
+          color: "#000",
+          fill: true,
+          backface: "#383838",
+          translate: { z: 40 }
+        });
+      };
+
+      addCylinder(-40, -7.5, "#ffe400")
+      addCylinder(40, 7.5, "#9e6101")
+
+      new Zdog.Shape({
+        addTo: group,
+        path: [
+          { y: -30, x: 0 },
+          { y: -15, x: 0 },
+          {
+            arc: [
+              { x: 0, y: -10 }, // corner
+              { x: -5, y: -10 } // end point
+            ]
+          },
+          {
+            arc: [
+              { x: -10, y: -10 }, // corner
+              { x: -10, y: -15 } // end point
+            ]
+          }
+        ],
+        translate: { z: 5, x: -5 },
+        closed: false,
+        stroke: 5,
+        color: "#ffb321"
+      });
+      new Zdog.Shape({
+        addTo: group,
+        path: [
+          { y: 0, x: -30 },
+          { y: 0, x: 30 },
+          { move: { y: 10, x: -30 } },
+          { y: 10, x: 5 },
+          { move: { y: 10, x: 15 } },
+          { y: 10, x: 30 },
+          { move: { y: 20, x: -30 } },
+          { y: 20, x: -15 },
+          { move: { y: 20, x: -5 } },
+          { y: 20, x: 30 }
+        ],
+        closed: false,
+        translate: { z: 5 },
+        stroke: 5,
+        color: "#ffb321"
+      });
+
+      new Zdog.Shape({
+        addTo: group,
+        path: [
+          { y: -25, x: 5 }, // start at 1st point
+          {
+            arc: [
+              { y: -30, x: 5 }, // corner
+              { y: -30, x: 0 } // end point
+            ]
+          },
+          {
+            arc: [
+              { y: -30, x: -5 }, // corner
+              { y: -25, x: -5 } // end point
+            ]
+          },
+          {
+            arc: [
+              { y: -20, x: -5 }, // corner
+              { y: -20, x: -0 } // end point
+            ]
+          },
+          {
+            arc: [
+              { y: -20, x: 5 }, // corner
+              { y: -15, x: 5 } // end point
+            ]
+          },
+          {
+            arc: [
+              { y: -10, x: 5 }, // corner
+              { y: -10, x: 0 } // end point
+            ]
+          },
+          {
+            arc: [
+              { y: -10, x: -5 }, // corner
+              { y: -15, x: -5 } // end point
+            ]
+          }
+        ],
+        translate: { z: 5, x: 5 },
+        closed: false,
+        stroke: 5,
+        color: "#ffb321"
+      });
+
+      new Zdog.Shape({
+        addTo: group,
+        visible: false,
+        translate: { z: 100 }
+      });
+
+      let ellipse = new Zdog.Ellipse({
+        addTo: illo,
+        width: 100,
+        height: 100,
+        stroke: 5,
+        fill: true,
+        color: "#eef2f5",
+        rotate: { x: Zdog.TAU / 4 },
+        translate: { y: 60 }
+      });
+
+      const addStar = (container, x, y) => {
+        const star = new Zdog.Anchor({
+          addTo: container,
+          translate: { x, y }
+        });
+
+        new Zdog.Cone({
+          addTo: star,
+          diameter: 3,
+          length: 5,
+          stroke: 2,
+          color: "#ff4585",
+          backface: "#ff4585",
+          translate: { z: 20 },
+          rotate: { x: Zdog.TAU / 4 }
+        });
+        new Zdog.Cone({
+          addTo: star,
+          diameter: 3,
+          length: 5,
+          stroke: 2,
+          color: "#ff4585",
+          backface: "#ff4585",
+          translate: { z: 20 },
+          rotate: { x: -Zdog.TAU / 4 }
+        });
+        new Zdog.Cone({
+          addTo: star,
+          diameter: 3,
+          length: 5,
+          stroke: 2,
+          color: "#ff4585",
+          backface: "#ff4585",
+          translate: { z: 20 },
+          rotate: { y: Zdog.TAU / 4 }
+        });
+        new Zdog.Cone({
+          addTo: star,
+          diameter: 3,
+          length: 5,
+          stroke: 2,
+          color: "#ff4585",
+          backface: "#ff4585",
+          translate: { z: 20 },
+          rotate: { y: -Zdog.TAU / 4 }
+        });
+      };
+
+      addStar(group, 20, 20);
+      addStar(group, 45, -10);
+      addStar(group, -30, -40);
+      addStar(group, -40, 10);
+
+      // illo.rotate.z -= Zdog.TAU / 30;
+      // illo.rotate.x -= Zdog.TAU / 60;
+
+      // update & render
+      illo.updateRenderGraph();
+
+      function animate() {
+        // rotate illo each frame
+        // illo.rotate.y += 0.01;
+        illo.updateRenderGraph();
+        // animate next frame
+        requestAnimationFrame(animate);
+      }
+      // start animation
+      animate();
+    </script>
+  </body>
+</html>
